@@ -2,6 +2,8 @@ package org.generation.lojagames.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.generation.lojagames.model.Categoria;
 import org.generation.lojagames.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class CategoriaController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> getById (@PathVariable long id) {
+	public ResponseEntity<Categoria> getById (@PathVariable Long id) {
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
@@ -49,13 +51,10 @@ public class CategoriaController {
 		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(descricao));	
 	}
 
-	
 	@PostMapping
-	public ResponseEntity<Categoria> post (@RequestBody Categoria categoria) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(repository.save(categoria));
-		
-		}
+    public ResponseEntity<Categoria> postCategoria (@Valid @RequestBody Categoria categoria){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(categoria));
+    }
 	
 	@PutMapping
 	public ResponseEntity<Categoria> put (@RequestBody Categoria categoria) {
@@ -64,7 +63,7 @@ public class CategoriaController {
 		}
 	
 	@DeleteMapping("/{id}")
-	public void delete (@PathVariable long id) {
+	public void delete (@PathVariable Long id) {
 		repository.deleteById(id);
 	}
 	

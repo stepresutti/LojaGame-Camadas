@@ -2,6 +2,8 @@ package org.generation.lojagames.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.generation.lojagames.model.Produto;
 import org.generation.lojagames.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> GetById(@PathVariable long id){
+	public ResponseEntity<Produto> GetById(@PathVariable Long id){
 		return repository.findById(id)
 				.map(postagem -> ResponseEntity.ok(postagem))
 				.orElse(ResponseEntity.notFound().build());
@@ -42,11 +44,10 @@ public class ProdutoController {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
-	
 	@PostMapping
-	public ResponseEntity<Produto> post (@RequestBody Produto produto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
-	}
+    public ResponseEntity<Produto> post (@Valid @RequestBody Produto produto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(produto));
+    }
 	
 	@PutMapping
 	public ResponseEntity<Produto> put (@RequestBody Produto produto){
@@ -54,7 +55,7 @@ public class ProdutoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable long id) {
+	public void delete(@PathVariable Long id) {
 		repository.deleteById(id);
 	}
 }
