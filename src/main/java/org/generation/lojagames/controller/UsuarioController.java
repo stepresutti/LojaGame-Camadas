@@ -44,6 +44,17 @@ public class UsuarioController {
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
+    @PutMapping("/atualizar")
+    public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario){
+        return usuarioService.atualizarUsuario(usuario)
+                .map(resp -> ResponseEntity.status(HttpStatus.OK).body(resp))
+                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUsuario (@PathVariable Long id) {
+        repository.deleteById(id);
+    }
 
 
 }

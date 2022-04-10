@@ -74,4 +74,7 @@ public class UsuarioService {
 
     }
 
+    public Optional<Usuario> atualizarUsuario(Usuario usuario) {
+        return null;
+    }
 }
